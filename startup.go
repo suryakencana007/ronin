@@ -6,7 +6,7 @@ import (
 )
 
 func Run[T LifeCycle](l T) error {
-	result, err := Config()
+	var result, err = Config()
 	if err != nil {
 		return err
 	}
@@ -16,7 +16,7 @@ func Run[T LifeCycle](l T) error {
 	log.Info().Str("version", l.Version()).Msg("life cycle")
 	// base modules
 	fx.New(append([]fx.Option{
-		fx.Provide(Config),
+		ModConf,
 		fx.WithLogger(Logger),
 	}, l.Yoroi())...).Run()
 	return nil
